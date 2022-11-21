@@ -62,3 +62,34 @@ Question 5: compute the percentage of visitors to the site that actually makes a
 SQL Queries:
 
 Answer: 95147/4301122 * 100 = 2.2%. I could not get my code to work but working it out manually the target answers is approximately 2.2%.
+
+Question 6: What is the average, min and max time on the site for people who made a purchase?
+
+     select case
+		when units_sold > 0 then 'buyers'
+		else 'browsers'
+		end as customer_type,
+		round(avg(timeonsite), 2) avg_time,
+		max(timeonsite) max_time,
+		min(timeonsite) min_time
+	from
+	analytics_clean
+
+	Group by 1
+
+
+Answer: Browser: avg = 11.03, max = 188, min = 0
+Buyer: avg = 19.86, max = 188, min = 0 
+Buyers spend roughly twice as long on the site versus browsers. No surprise there.
+
+Question 7: What are the busiests days of the week for accessing the sight?
+
+    SELECT	to_char(date, 'day') AS DAY,
+		COUNT(date)
+		FROM public.analytics_clean
+
+    GROUP BY 1
+    ORDER BY 2 DESC
+
+
+Answer: Weekdays are the busiest days. Appoximately 40% fewer visitors on the weekend versus a weekday. Busiest day of the week is a Tuesday (709695 visits). Slowest day is a saturday (430428)
